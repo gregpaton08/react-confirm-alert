@@ -34,7 +34,6 @@ export default class ReactConfirmAlert extends Component {
 
   close = () => {
     removeElementReconfirm()
-    removeSVGBlurReconfirm()
   }
 
   componentWillUnmount = () => {
@@ -81,29 +80,6 @@ export default class ReactConfirmAlert extends Component {
   }
 }
 
-function createSVGBlurReconfirm () {
-  const svgNS = 'http://www.w3.org/2000/svg'
-  const feGaussianBlur = document.createElementNS(svgNS, 'feGaussianBlur')
-  feGaussianBlur.setAttribute('stdDeviation', '0.7')
-
-  const filter = document.createElementNS(svgNS, 'filter')
-  filter.setAttribute('id', 'gaussian-blur')
-  filter.appendChild(feGaussianBlur)
-
-  const svgElem = document.createElementNS(svgNS, 'svg')
-  svgElem.setAttribute('id', 'react-confirm-alert-firm-svg')
-  svgElem.setAttribute('class', 'react-confirm-alert-svg')
-  svgElem.appendChild(filter)
-
-  document.body.appendChild(svgElem)
-}
-
-function removeSVGBlurReconfirm () {
-  const svg = document.getElementById('react-confirm-alert-firm-svg')
-  svg.parentNode.removeChild(svg)
-  document.body.children[0].classList.remove('react-confirm-alert-blur')
-}
-
 function createElementReconfirm (properties) {
   document.body.children[0].classList.add('react-confirm-alert-blur')
   const divTarget = document.createElement('div')
@@ -116,9 +92,9 @@ function removeElementReconfirm () {
   const target = document.getElementById('react-confirm-alert')
   unmountComponentAtNode(target)
   target.parentNode.removeChild(target)
+  document.body.children[0].classList.remove('react-confirm-alert-blur')
 }
 
 export function confirmAlert (properties) {
-  createSVGBlurReconfirm()
   createElementReconfirm(properties)
 }
