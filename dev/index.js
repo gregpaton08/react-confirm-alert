@@ -1,9 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { confirmAlert } from 'react-confirm-alert'
+import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert'
 import '../src/react-confirm-alert.css'
 
+const ReactConfirmAlertComponent = props => (
+  <ReactConfirmAlert
+    title='Confirm to submit'
+    message='Are you sure to do this.'
+    buttons={[
+      {
+        label: 'Yes',
+        onClick: props.onClick
+      },
+      {
+        label: 'No',
+        onClick: props.onClick
+      }
+    ]}
+  />
+)
+
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      displayConfirmAlert: false
+    }
+  }
+
   submit = () => {
     confirmAlert({
       title: 'Confirm to submit',
@@ -54,8 +79,26 @@ class App extends React.Component {
             >
               Show confirm Custom UI
             </a>
+            <a
+              href='javascript:;'
+              className='button outline'
+              onClick={() => this.setState({
+                ...this.state,
+                displayConfirmAlert: true
+              })}
+            >
+              Show confirm component
+            </a>
           </div>
         </section>
+        {this.state.displayConfirmAlert &&
+          <ReactConfirmAlertComponent
+            onClick={() => this.setState({
+              ...this.state,
+              displayConfirmAlert: false
+            })}
+          />
+        }
       </div>
     )
   }
