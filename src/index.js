@@ -34,13 +34,8 @@ export default class ReactConfirmAlert extends Component {
     this.props.onClose()
   }
 
-  componentDidMount() {
-    document.body.children[0].classList.add('react-confirm-alert-blur')
-  }
-
   componentWillUnmount = () => {
     this.props.willUnmount()
-    document.body.children[0].classList.remove('react-confirm-alert-blur')
   }
 
   renderCustomUI = () => {

@@ -1,9 +1,3 @@
-.react-confirm-alert-blur {
-  filter: url(#gaussian-blur);
-  filter: blur(2px);
-  -webkit-filter: blur(2px);
-}
-
 .react-confirm-alert-overlay {
   position: fixed;
   top: 0;
