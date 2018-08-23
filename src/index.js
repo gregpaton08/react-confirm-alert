@@ -34,8 +34,13 @@ export default class ReactConfirmAlert extends Component {
     this.props.onClose()
   }
 
+  componentDidMount() {
+    document.body.children[0].classList.add('react-confirm-alert-blur')
+  }
+
   componentWillUnmount = () => {
     this.props.willUnmount()
+    document.body.children[0].classList.remove('react-confirm-alert-blur')
   }
 
   renderCustomUI = () => {
@@ -79,7 +84,6 @@ export default class ReactConfirmAlert extends Component {
 }
 
 function createElementReconfirm (properties) {
-  document.body.children[0].classList.add('react-confirm-alert-blur')
   const divTarget = document.createElement('div')
   divTarget.id = 'react-confirm-alert'
   document.body.appendChild(divTarget)
@@ -94,7 +98,6 @@ function removeElementReconfirm () {
   const target = document.getElementById('react-confirm-alert')
   unmountComponentAtNode(target)
   target.parentNode.removeChild(target)
-  document.body.children[0].classList.remove('react-confirm-alert-blur')
 }
 
 export function confirmAlert (properties) {
