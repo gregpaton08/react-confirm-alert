@@ -9,7 +9,8 @@ export default class ReactConfirmAlert extends Component {
     buttons: PropTypes.array.isRequired,
     childrenElement: PropTypes.func,
     customUI: PropTypes.func,
-    willUnmount: PropTypes.func
+    willUnmount: PropTypes.func,
+    onClose: PropTypes.func
   }
 
   static defaultProps = {
@@ -24,16 +25,13 @@ export default class ReactConfirmAlert extends Component {
       }
     ],
     childrenElement: () => null,
-    willUnmount: () => null
+    willUnmount: () => null,
+    onClose: () => null
   }
 
   handleClickButton = button => {
     if (button.onClick) button.onClick()
-    this.close()
-  }
-
-  close = () => {
-    removeElementReconfirm()
+    this.props.onClose()
   }
 
   componentWillUnmount = () => {
@@ -45,7 +43,7 @@ export default class ReactConfirmAlert extends Component {
     const dataCustomUI = {
       title,
       message,
-      onClose: this.close
+      onClose: this.props.onClose
     }
 
     return customUI(dataCustomUI)
@@ -85,7 +83,11 @@ function createElementReconfirm (properties) {
   const divTarget = document.createElement('div')
   divTarget.id = 'react-confirm-alert'
   document.body.appendChild(divTarget)
-  render(<ReactConfirmAlert {...properties} />, divTarget)
+  const newProperties = {
+    ...properties,
+    onClose: () => removeElementReconfirm()
+  }
+  render(<ReactConfirmAlert {...newProperties} />, divTarget)
 }
 
 function removeElementReconfirm () {
